@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flux_foot_admin/features/auth/presentation/screens/loging_screen.dart';
+import 'package:flux_foot_admin/features/auth/presentation/screens/login_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,7 +11,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'FluxFoot_Admin',
       debugShowCheckedModeBanner: false,
-      home: LogingScreen(),);
+      theme: ThemeData(
+        scaffoldBackgroundColor: Color(0xFF1E2A44),
+     
+      ),
+      home: LogingScreen(),
+    );
   }
 }

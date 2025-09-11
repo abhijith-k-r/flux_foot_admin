@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flux_foot_admin/features/auth/presentation/screens/dashboard.dart';
+import 'package:flux_foot_admin/features/auth/presentation/widgets/lgoin_form.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LogingScreen extends StatelessWidget {
@@ -12,7 +14,7 @@ class LogingScreen extends StatelessWidget {
         builder: (context, constraints) {
           bool isMobile = constraints.maxWidth < 768;
           return Container(
-            color: Color(0xFF1E2A44),
+            // color: Color(0xFF1E2A44),
             child: isMobile ? MobileLoginLayout() : WebLoginLayout(),
           );
         },
@@ -228,7 +230,7 @@ class _LoginFormState extends State<LoginForm> {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: _handleLogin,
+                onPressed: () => fadePush(context, Dashboard()),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF4B5EFC),
                   foregroundColor: Colors.white,
