@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flux_foot_admin/features/auth/presentation/screens/dashboard.dart';
-import 'package:flux_foot_admin/features/auth/presentation/widgets/lgoin_form.dart';
+import 'package:flux_foot_admin/features/auth/presentation/provider/auth_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class LogingScreen extends StatelessWidget {
   const LogingScreen({super.key});
@@ -23,7 +23,7 @@ class LogingScreen extends StatelessWidget {
   }
 }
 
-// Separate Widget for Mobile Layout to avoid rebuild issues
+//! Separate Widget for Mobile Layout to avoid rebuild issues
 class MobileLoginLayout extends StatelessWidget {
   const MobileLoginLayout({super.key});
 
@@ -42,7 +42,7 @@ class MobileLoginLayout extends StatelessWidget {
         ),
         child: Column(
           children: [
-            // Logo section - takes minimal space when keyboard is open
+            //! Logo section - takes minimal space when keyboard is open
             if (viewInsets.bottom == 0) ...[
               SizedBox(height: size.height * 0.05),
               Image.asset(
@@ -72,7 +72,7 @@ class MobileLoginLayout extends StatelessWidget {
               SizedBox(height: 20),
             ],
 
-            // Login form - expands to fill available space
+            //! Login form - expands to fill available space
             Expanded(child: SingleChildScrollView(child: LoginForm())),
           ],
         ),
@@ -81,7 +81,7 @@ class MobileLoginLayout extends StatelessWidget {
   }
 }
 
-// Separate Widget for Web Layout
+//! Separate Widget for Web Layout
 class WebLoginLayout extends StatelessWidget {
   const WebLoginLayout({super.key});
 
@@ -119,155 +119,133 @@ class WebLoginLayout extends StatelessWidget {
   }
 }
 
-// Separate LoginForm Widget
-class LoginForm extends StatefulWidget {
+//! Separate LoginForm Widget
+class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
-
-  @override
-  _LoginFormState createState() => _LoginFormState();
-}
-
-class _LoginFormState extends State<LoginForm> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _emailFocus = FocusNode();
-  final _passwordFocus = FocusNode();
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _emailFocus.dispose();
-    _passwordFocus.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isMobile = size.width < 768;
 
-    return Form(
-      key: _formKey,
-      child: Padding(
-        padding: EdgeInsets.only(right: !isMobile ? 30 : 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Login',
-              style: GoogleFonts.openSans(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: isMobile ? size.width * 0.07 : size.width * 0.03,
-              ),
-            ),
-            SizedBox(height: 24),
-
-            // Email Field
-            CustomTextFormField(
-              label: 'Enter Email',
-              hintText: 'example@fluxfoot.com',
-              controller: _emailController,
-              focusNode: _emailFocus,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-              prefIcon: Icon(
-                Icons.email,
-                size: isMobile ? 24 : 20,
-                color: Colors.grey.shade400,
-              ),
-              onFieldSubmitted: (_) {
-                FocusScope.of(context).requestFocus(_passwordFocus);
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your email';
-                }
-                if (!RegExp(
-                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                ).hasMatch(value)) {
-                  return 'Please enter a valid email';
-                }
-                return null;
-              },
-            ),
-
-            SizedBox(height: 20),
-
-            // Password Field
-            CustomTextFormField(
-              label: 'Enter Password',
-              hintText: '••••••••',
-              controller: _passwordController,
-              focusNode: _passwordFocus,
-              keyboardType: TextInputType.visiblePassword,
-              textInputAction: TextInputAction.done,
-              obscureText: true,
-              prefIcon: Icon(
-                Icons.lock,
-                size: isMobile ? 24 : 20,
-                color: Colors.grey.shade400,
-              ),
-              onFieldSubmitted: (_) => _handleLogin(),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your password';
-                }
-                if (value.length < 6) {
-                  return 'Password must be at least 6 characters';
-                }
-                return null;
-              },
-            ),
-
-            SizedBox(height: 32),
-
-            // Login Button
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () => fadePush(context, Dashboard()),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF4B5EFC),
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 2,
-                ),
-                child: Text(
-                  'Sign In',
+    return Consumer<AuthenticationAdmin>(
+      builder: (context, authenticationAdmin, child) {
+        return Form(
+          key: authenticationAdmin.formkey,
+          child: Padding(
+            padding: EdgeInsets.only(right: !isMobile ? 30 : 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Login',
                   style: GoogleFonts.openSans(
-                    fontSize: isMobile ? 16 : 14,
-                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: isMobile ? size.width * 0.07 : size.width * 0.03,
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+                SizedBox(height: 24),
 
-  void _handleLogin() {
-    if (_formKey.currentState!.validate()) {
-      // Handle login logic here
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Login successful!'),
-          backgroundColor: Colors.green,
-        ),
-      );
-    }
+                //! Email Field
+                CustomTextFormField(
+                  label: 'Enter Email',
+                  hintText: 'example@fluxfoot.com',
+                  controller: authenticationAdmin.emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  prefIcon: Icon(
+                    Icons.email,
+                    size: isMobile ? 24 : 20,
+                    color: Colors.grey.shade400,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    if (!RegExp(
+                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    ).hasMatch(value)) {
+                      return 'Please enter a valid email';
+                    }
+                    return null;
+                  },
+                ),
+
+                SizedBox(height: 20),
+
+                //! Password Field
+                CustomTextFormField(
+                  label: 'Enter Password',
+                  hintText: '••••••••',
+                  controller: authenticationAdmin.passwordController,
+                  keyboardType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.done,
+                  obscureText: !authenticationAdmin.isPasswordVisible,
+                  prefIcon: Icon(
+                    Icons.lock,
+                    size: isMobile ? 24 : 20,
+                    color: Colors.grey.shade400,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
+                  suffIcon: authenticationAdmin.isPasswordVisible
+                      ? IconButton(
+                          onPressed: () =>
+                              authenticationAdmin.togglePasswordVisible(),
+                          icon: Icon(Icons.visibility, color: Colors.white),
+                        )
+                      : IconButton(
+                          onPressed: () =>
+                              authenticationAdmin.togglePasswordVisible(),
+                          icon: Icon(Icons.visibility_off, color: Colors.white),
+                        ),
+                ),
+
+                SizedBox(height: 32),
+
+                //! Login Button
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: authenticationAdmin.isLoading
+                        ? null
+                        : () => authenticationAdmin.login(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF4B5EFC),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 2,
+                    ),
+                    child: authenticationAdmin.isLoading
+                        ? CircularProgressIndicator(color: Colors.orange)
+                        : Text(
+                            'Sign In',
+                            style: GoogleFonts.openSans(
+                              fontSize: isMobile ? 16 : 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 
-// Custom Text Form Field
+// !Custom Text Form Field
 class CustomTextFormField extends StatelessWidget {
   final String label;
   final String hintText;

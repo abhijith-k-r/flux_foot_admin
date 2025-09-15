@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/core/constants/app_colors.dart';
+import 'package:flux_foot_admin/features/auth/presentation/provider/drop_down_btn_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomWebAppbar extends StatelessWidget {
@@ -50,44 +51,47 @@ class CustomWebAppbar extends StatelessWidget {
 
             Spacer(),
 
-            //! Admin Button
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: const Color(0xFF4C6EF5),
-                borderRadius: BorderRadius.circular(6),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF4C6EF5).withOpacity(0.3),
-                    offset: const Offset(0, 2),
-                    blurRadius: 4,
-                  ),
-                ],
-              ),
-              child: InkWell(
-                onTap: onAdminTap,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      Icons.admin_panel_settings,
-                      color: Colors.white,
-                      size: 16,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'ADMIN',
-                      style: GoogleFonts.openSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // ! ADMIN BUTTON 2
+            AdminDropdown()
+
+            // //! Admin Button1
+            // Container(
+            //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            //   decoration: BoxDecoration(
+            //     color: const Color(0xFF4C6EF5),
+            //     borderRadius: BorderRadius.circular(6),
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: const Color(0xFF4C6EF5).withOpacity(0.3),
+            //         offset: const Offset(0, 2),
+            //         blurRadius: 4,
+            //       ),
+            //     ],
+            //   ),
+            //   child: InkWell(
+            //     onTap: onAdminTap,
+            //     child: Row(
+            //       mainAxisSize: MainAxisSize.min,
+            //       children: [
+                    // const Icon(
+                    //   Icons.admin_panel_settings,
+                    //   color: Colors.white,
+                    //   size: 16,
+                    // ),
+            //         const SizedBox(width: 8),
+            //         Text(
+            //           'ADMIN',
+            //           style: GoogleFonts.openSans(
+            //             fontSize: 12,
+            //             fontWeight: FontWeight.bold,
+            //             color: Colors.white,
+            //             letterSpacing: 0.5,
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

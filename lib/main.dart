@@ -1,13 +1,24 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flux_foot_admin/features/auth/presentation/provider/auth_provider.dart';
+import 'package:flux_foot_admin/features/auth/presentation/provider/drop_down_btn_provider.dart';
 import 'package:flux_foot_admin/features/auth/presentation/screens/login_screen.dart';
 import 'package:flux_foot_admin/firebase_options.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    log(e.toString());
+  }
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -15,11 +26,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FluxFoot_Admin',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(scaffoldBackgroundColor: Color(0xFF1E2A44)),
-      home: LogingScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AuthenticationAdmin>(
+          create: (context) => AuthenticationAdmin(),
+        ),
+        ChangeNotifierProvider<DropDownButtonProvider>(
+          create: (context) => DropDownButtonProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'FluxFoot_Admin',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(scaffoldBackgroundColor: Color(0xFF1E2A44)),
+        home: LogingScreen(),
+      ),
     );
   }
 }
