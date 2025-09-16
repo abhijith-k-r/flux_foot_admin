@@ -27,6 +27,21 @@ void fadePUshReplaceMent(BuildContext context, Widget page) {
   );
 }
 
+
+// ! Fade push And RemoveUntil
+void fadePushAndRemoveUntil(BuildContext context, Widget page) {
+  Navigator.pushAndRemoveUntil(
+    context,
+    PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+    ),
+    (Route<dynamic> route) => false,
+  );
+}
+
 // ! Custom SnackBar
 void showOverlaySnackbar(BuildContext context, String message, Color color) {
   // Use a GlobalKey to access the Scaffold's Overlay

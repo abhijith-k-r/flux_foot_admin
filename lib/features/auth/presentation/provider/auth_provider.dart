@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flux_foot_admin/core/firebase/auth/firebase_auth_service.dart';
 import 'package:flux_foot_admin/features/auth/presentation/screens/dashboard.dart';
 import 'package:flux_foot_admin/features/auth/presentation/widgets/lgoin_form.dart';
 
@@ -10,18 +10,24 @@ class AuthenticationAdmin extends ChangeNotifier {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _auth = FirebaseAuth.instance;
+
+  final FirebaseAuthService _firebaseAuthService = FirebaseAuthService();
 
   bool _isPasswordVisible = false;
   bool _isLoading = false;
+  bool _isLoggedIn = false;
 
   GlobalKey get formkey => _formKey;
   TextEditingController get emailController => _emailController;
   TextEditingController get passwordController => _passwordController;
-  FirebaseAuth get auth => _auth;
 
   bool get isPasswordVisible => _isPasswordVisible;
   bool get isLoading => _isLoading;
+  bool get isLoggedIn => _isLoggedIn;
+
+  AuthenticationAdmin() {
+    checkLoginStatus(); 
+  }
 
   void togglePasswordVisible() {
     _isPasswordVisible = !_isPasswordVisible;
@@ -33,28 +39,37 @@ class AuthenticationAdmin extends ChangeNotifier {
     notifyListeners();
   }
 
+    Future<void> checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    _isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    notifyListeners();
+  }
+
+    Future<void> setLoggedIn(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', value);
+    _isLoggedIn = value;
+    notifyListeners();
+  }
+
   Future<void> login(BuildContext ctx) async {
     if (_formKey.currentState!.validate()) {
       setLoading(true);
 
       try {
-        // Fetch predefined credentials from Firestore
-        DocumentSnapshot adminDoc = await FirebaseFirestore.instance
-            .collection('admin_credentials')
-            .doc('default_admin')
-            .get();
+        final credentials = await _firebaseAuthService.fetchAdminCredentials();
 
-        if (adminDoc.exists) {
-          String storedEmail = adminDoc['email'];
-          String storedPassword = adminDoc['password'];
+        if (credentials != null) {
+          final storedEmail = credentials['email'];
+          final storedPassword = credentials['password'];
 
-          //  Compare input with stored values
           if (_emailController.text.trim() == storedEmail &&
               _passwordController.text.trim() == storedPassword) {
+
+            await setLoggedIn(true);
             fadePUshReplaceMent(ctx, Dashboard());
-            showOverlaySnackbar(ctx, 'SucessFully Login 💫', Colors.green);
+            showOverlaySnackbar(ctx, 'Successfully Login 💫', Colors.green);
           } else {
-            // Show error if no match
             showOverlaySnackbar(
               ctx,
               '🙆‍♀️ Invalid email or password.',
@@ -63,26 +78,7 @@ class AuthenticationAdmin extends ChangeNotifier {
           }
         }
       } catch (e) {
-        // String errorMessage = 'An error occurred. Please try again.';
-        // if (e is FirebaseAuthException) {
-        //   switch (e.code) {
-        //     case 'configuration-not-found':
-        //       errorMessage =
-        //           'Firebase configuration is missing. Please check setup.';
-        //       break;
-        //     case 'user-not-found':
-        //       errorMessage = 'No user found with this email.';
-        //       break;
-        //     case 'wrong-password':
-        //       errorMessage = 'Incorrect password.';
-        //       break;
-        //     default:
-        //       errorMessage = e.message ?? errorMessage;
-        //   }
-        // }
-        // ScaffoldMessenger.of(
-        //   ctx,
-        // ).showSnackBar(SnackBar(content: Text(errorMessage)));
+        showOverlaySnackbar(ctx, 'Error: $e', Colors.red);
       } finally {
         setLoading(false);
       }

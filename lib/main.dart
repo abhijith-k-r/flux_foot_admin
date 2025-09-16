@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/features/auth/presentation/provider/auth_provider.dart';
 import 'package:flux_foot_admin/features/auth/presentation/provider/drop_down_btn_provider.dart';
+import 'package:flux_foot_admin/features/auth/presentation/screens/dashboard.dart';
 import 'package:flux_foot_admin/features/auth/presentation/screens/login_screen.dart';
 import 'package:flux_foot_admin/firebase_options.dart';
 import 'package:provider/provider.dart';
@@ -35,11 +36,15 @@ class MyApp extends StatelessWidget {
           create: (context) => DropDownButtonProvider(),
         ),
       ],
-      child: MaterialApp(
-        title: 'FluxFoot_Admin',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(scaffoldBackgroundColor: Color(0xFF1E2A44)),
-        home: LogingScreen(),
+      child: Consumer<AuthenticationAdmin>(
+        builder: (context, authProvider, child) {
+          return MaterialApp(
+            title: 'FluxFoot_Admin',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(scaffoldBackgroundColor: Color(0xFF1E2A44)),
+            home: authProvider.isLoggedIn ? Dashboard() : LogingScreen(),
+          );
+        },
       ),
     );
   }
