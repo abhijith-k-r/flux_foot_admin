@@ -17,7 +17,6 @@ class CustomSideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width;
     return SideMenu(
       backgroundColor: const Color(0xFF1E2A44),
       builder: (data) => SideMenuData(
@@ -54,31 +53,6 @@ class CustomSideMenu extends StatelessWidget {
             highlightSelectedColor: Color(0xFF4B5EFC),
           );
         }).toList(),
-        footer: Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Container(
-            height: size * 0.03,
-            width: size * 0.2,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              border: BoxBorder.all(color: Colors.black),
-            ),
-            child: size > 0.03
-                ? Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CircleAvatar(
-                          child: Icon(Icons.person_outline_outlined),
-                        ),
-                        Text('Marcus RashFord'),
-                      ],
-                    ),
-                  )
-                : CircleAvatar(child: Icon(Icons.person_outline_outlined)),
-          ),
-        ),
       ),
     );
   }

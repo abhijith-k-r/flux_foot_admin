@@ -9,6 +9,7 @@ class LogingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF0A0F2C),
       resizeToAvoidBottomInset: true,
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -218,7 +219,7 @@ class LoginForm extends StatelessWidget {
                         ? null
                         : () => authenticationAdmin.login(context),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF4B5EFC),
+                      backgroundColor: Color(0xFF4C6EF5),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),

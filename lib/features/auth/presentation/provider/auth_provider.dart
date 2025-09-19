@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flux_foot_admin/core/firebase/auth/firebase_auth_service.dart';
-import 'package:flux_foot_admin/features/auth/presentation/screens/dashboard.dart';
+import 'package:flux_foot_admin/features/dashboard/presentation/screens/dashboard.dart';
 import 'package:flux_foot_admin/features/auth/presentation/widgets/lgoin_form.dart';
 
 class AuthenticationAdmin extends ChangeNotifier {

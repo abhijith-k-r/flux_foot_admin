@@ -1,7 +1,7 @@
-// ! Fade Push
 
 import 'package:flutter/material.dart';
 
+// ! Fade Push
 void fadePush(BuildContext context, Widget page) {
   Navigator.push(
     context,

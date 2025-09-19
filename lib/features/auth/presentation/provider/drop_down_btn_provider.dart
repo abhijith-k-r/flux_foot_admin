@@ -41,6 +41,7 @@ class AdminDropdown extends StatelessWidget {
   Widget _buildAdminDropdown(BuildContext context) {
     return Consumer<DropDownButtonProvider>(
       builder: (context, dropdownButton, child) {
+        final size = MediaQuery.of(context).size.width;
         return PopupMenuButton<String>(
           // Button to trigger the dropdown
           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -88,9 +89,10 @@ class AdminDropdown extends StatelessWidget {
           color: Colors.white,
           // Button to trigger the dropdown
           child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 8.0,
+            // width: size * 0.08,
+            padding: EdgeInsets.symmetric(
+              horizontal: size * 0.01,
+              vertical: size * 0.004,
             ),
             decoration: BoxDecoration(
               color: Color(0xFF4C6EF5), // Matches the image's button color
