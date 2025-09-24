@@ -3,9 +3,10 @@ import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/features/auth/presentation/provider/auth_provider.dart';
-import 'package:flux_foot_admin/features/auth/presentation/provider/drop_down_btn_provider.dart';
-import 'package:flux_foot_admin/features/dashboard/presentation/screens/dashboard.dart';
+import 'package:flux_foot_admin/features/sidemenu/presentation/provider/drop_down_btn_provider.dart';
+import 'package:flux_foot_admin/features/sidemenu/presentation/screens/sidemenu.dart';
 import 'package:flux_foot_admin/features/auth/presentation/screens/login_screen.dart';
+import 'package:flux_foot_admin/features/sidemenu/presentation/provider/sidemenu_provider.dart';
 import 'package:flux_foot_admin/firebase_options.dart';
 import 'package:provider/provider.dart';
 
@@ -35,6 +36,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<DropDownButtonProvider>(
           create: (context) => DropDownButtonProvider(),
         ),
+        ChangeNotifierProvider<SidemenuProvider>(
+          create: (context) => SidemenuProvider(),
+        ),
       ],
       child: Consumer<AuthenticationAdmin>(
         builder: (context, authProvider, child) {
@@ -42,7 +46,9 @@ class MyApp extends StatelessWidget {
             title: 'FluxFoot_Admin',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(scaffoldBackgroundColor: Colors.black),
-            home: authProvider.isLoggedIn ? Dashboard() : LogingScreen(),
+            home: authProvider.isLoggedIn
+                ? SideMenuWithAppbar()
+                : LogingScreen(),
           );
         },
       ),

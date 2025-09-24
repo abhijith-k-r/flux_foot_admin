@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flux_foot_admin/core/firebase/auth/firebase_auth_service.dart';
-import 'package:flux_foot_admin/features/dashboard/presentation/screens/dashboard.dart';
+import 'package:flux_foot_admin/features/sidemenu/presentation/screens/sidemenu.dart';
 import 'package:flux_foot_admin/features/auth/presentation/widgets/lgoin_form.dart';
 
 class AuthenticationAdmin extends ChangeNotifier {
@@ -26,7 +26,7 @@ class AuthenticationAdmin extends ChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
 
   AuthenticationAdmin() {
-    checkLoginStatus(); 
+    checkLoginStatus();
   }
 
   void togglePasswordVisible() {
@@ -39,13 +39,13 @@ class AuthenticationAdmin extends ChangeNotifier {
     notifyListeners();
   }
 
-    Future<void> checkLoginStatus() async {
+  Future<void> checkLoginStatus() async {
     final prefs = await SharedPreferences.getInstance();
     _isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
     notifyListeners();
   }
 
-    Future<void> setLoggedIn(bool value) async {
+  Future<void> setLoggedIn(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', value);
     _isLoggedIn = value;
@@ -65,9 +65,8 @@ class AuthenticationAdmin extends ChangeNotifier {
 
           if (_emailController.text.trim() == storedEmail &&
               _passwordController.text.trim() == storedPassword) {
-
             await setLoggedIn(true);
-            fadePUshReplaceMent(ctx, Dashboard());
+            fadePUshReplaceMent(ctx, SideMenuWithAppbar());
             showOverlaySnackbar(ctx, 'Successfully Login 💫', Colors.green);
           } else {
             showOverlaySnackbar(
