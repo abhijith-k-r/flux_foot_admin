@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flux_foot_admin/features/sellermanagement/data/model/seller_status_model.dart';
-import 'package:flux_foot_admin/features/sellermanagement/presentation/widgets/seller_status_container.dart';
-import 'package:flux_foot_admin/features/sellermanagement/presentation/widgets/seller_table.dart';
+import 'package:flux_foot_admin/core/constants/web_colors.dart';
+import 'package:flux_foot_admin/features/sellermanagement/models/seller_status_model.dart';
+import 'package:flux_foot_admin/features/sellermanagement/views/widgets/seller_status_container.dart';
+import 'package:flux_foot_admin/features/sellermanagement/views/widgets/seller_table.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SellerManagement extends StatelessWidget {
@@ -26,14 +27,14 @@ class SellerManagement extends StatelessWidget {
                     return SizedBox(
                       height: 120,
                       child: Center(
-                        child: CircularProgressIndicator(color: Colors.white70),
+                        child: CircularProgressIndicator(color: WebColors.waitinColor),
                       ),
                     );
                   }
                   if (snapshot.hasError) {
                     return Text(
                       'Error loading stats: ${snapshot.error}',
-                      style: GoogleFonts.openSans(color: Colors.red),
+                      style: GoogleFonts.openSans(color: WebColors.errorRed),
                     );
                   }
                   final counts =
@@ -47,6 +48,7 @@ class SellerManagement extends StatelessWidget {
                         flex: 2,
                         child: CustomSellerStatus(
                           size: size,
+                          lottie: 'assets/lotties/Ecommerce.json',
                           satsTitle: 'Total Seller',
                           countSellr: counts.total.toString(),
                           boxColor: Color.fromARGB(255, 99, 63, 201),
@@ -57,16 +59,18 @@ class SellerManagement extends StatelessWidget {
                         flex: 2,
                         child: CustomSellerStatus(
                           size: size,
+                          lottie: 'assets/lotties/Alert on.json',
                           satsTitle: 'Active Sellers',
                           countSellr: counts.active.toString(),
                           boxColor: const Color.fromARGB(255, 78, 155, 80),
-                          iconColor: Colors.greenAccent,
+                          iconColor: WebColors.activeGreen,
                         ),
                       ),
                       Expanded(
                         flex: 2,
                         child: CustomSellerStatus(
                           size: size,
+                          lottie: 'assets/lotties/Process - Pending.json',
                           satsTitle: 'Pending Sellers',
                           countSellr: counts.pending.toString(),
                           boxColor: const Color.fromARGB(255, 177, 153, 82),
@@ -77,6 +81,7 @@ class SellerManagement extends StatelessWidget {
                         flex: 2,
                         child: CustomSellerStatus(
                           size: size,
+                          lottie: 'assets/lotties/Error animation.json',
                           satsTitle: 'Block Sellers',
                           countSellr: counts.blocked.toString(),
                           boxColor: const Color.fromARGB(255, 190, 80, 72),

@@ -1,9 +1,11 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:flux_foot_admin/core/constants/app_colors.dart';
-import 'package:flux_foot_admin/features/sellermanagement/presentation/widgets/seller_table.dart';
+import 'package:flux_foot_admin/core/constants/web_colors.dart';
+import 'package:flux_foot_admin/core/widgets/show_snackbar.dart';
+import 'package:flux_foot_admin/features/sellermanagement/views/widgets/seller_table.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 showSellerDetails(
   BuildContext context,
@@ -12,7 +14,27 @@ showSellerDetails(
   dynamic name,
   dynamic email,
   String phone,
+  dynamic storename,
+  dynamic businesstype,
+  dynamic warehouse,
+  String licenseUrl,
 ) {
+  // Function to launch the URL (License Document)
+  void launchLicenseUrl() async {
+    if (licenseUrl.isNotEmpty) {
+      final Uri url = Uri.parse(licenseUrl);
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url);
+      } else {
+        showOverlaySnackbar(
+          context,
+          'Could not open document link.',
+          WebColors.errorRed,
+        );
+      }
+    }
+  }
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -28,13 +50,14 @@ showSellerDetails(
           child: Column(
             children: [
               AppBar(
+                automaticallyImplyLeading: false,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadiusGeometry.only(
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15),
                   ),
                 ),
-                leading: customBackButton(context),
+                actions: [customBackButton(context)],
                 backgroundColor: const Color.fromARGB(255, 46, 46, 46),
               ),
               Padding(
@@ -53,7 +76,7 @@ showSellerDetails(
                         Text(
                           'Seller Details',
                           style: GoogleFonts.openSans(
-                            color: Colors.white,
+                            color: WebColors.textWhite,
                             fontSize: size * 0.015,
                             fontWeight: FontWeight.bold,
                           ),
@@ -108,7 +131,7 @@ showSellerDetails(
                                         buildDetaileItem(
                                           context,
                                           'Store Name',
-                                          'John Doe',
+                                          storename,
                                         ),
                                         buildDetaileItem(
                                           context,
@@ -130,7 +153,7 @@ showSellerDetails(
                                         buildDetaileItem(
                                           context,
                                           'Business Type',
-                                          'John Doe',
+                                          businesstype,
                                         ),
                                       ],
                                     ),
@@ -140,7 +163,15 @@ showSellerDetails(
                                 buildDetaileItem(
                                   context,
                                   'Warehous Address/ Shipping Orighin',
-                                  '123 Kickoff Lane, Touchdown City, FS 54321, USA',
+                                  warehouse,
+                                ),
+                                // ! NEW: Business License Document Link
+                                SizedBox(height: size * 0.013),
+                                buildLicenseDocumentItem(
+                                  context,
+                                  'Business License Document',
+                                  licenseUrl,
+                                  launchLicenseUrl,
                                 ),
                               ],
                             ),
@@ -179,10 +210,64 @@ Widget buildDetaileItem(BuildContext context, String label, String value) {
         style: GoogleFonts.openSans(
           fontSize: size * 0.011,
           fontWeight: FontWeight.bold,
-          color: textWhite,
+          color:WebColors. textWhite,
         ),
         overflow: TextOverflow.ellipsis,
       ),
+    ],
+  );
+}
+
+// ! NEW Helper Widget for the Document Link
+Widget buildLicenseDocumentItem(
+  BuildContext context,
+  String label,
+  String url,
+  VoidCallback onPressed,
+) {
+  final size = MediaQuery.of(context).size.width;
+  final bool isAvailable = url.isNotEmpty && url != 'N/A';
+
+  return Column(
+    // spacing: 4,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        label,
+        style: GoogleFonts.openSans(
+          fontSize: size * 0.01,
+          fontWeight: FontWeight.w500,
+          color: Colors.white70,
+        ),
+      ),
+      SizedBox(height: 4),
+      if (isAvailable)
+        TextButton.icon(
+          onPressed: onPressed,
+          icon: Icon(
+            Icons.description,
+            size: size * 0.015,
+            color: Colors.blueAccent,
+          ),
+          label: Text(
+            'View Document',
+            style: GoogleFonts.openSans(
+              fontSize: size * 0.011,
+              fontWeight: FontWeight.bold,
+              color: Colors.blueAccent,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        )
+      else
+        Text(
+          'Document Not Available',
+          style: GoogleFonts.openSans(
+            fontSize: size * 0.011,
+            fontWeight: FontWeight.bold,
+            color: WebColors.errorRed,
+          ),
+        ),
     ],
   );
 }
@@ -192,18 +277,19 @@ Widget buildDetaileItem(BuildContext context, String label, String value) {
 Padding customBackButton(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.all(10),
-    child: GestureDetector(
-      onTap: () => Navigator.pop(context),
-      child: SizedBox(
-        width: 40,
-        height: 40,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white24,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Icon(Icons.arrow_back_ios_new, color: Colors.white),
-        ),
+    child: Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: Colors.grey,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: Icon(Icons.close, color: WebColors.iconeWhite),
+        tooltip: 'Back',
       ),
     ),
   );

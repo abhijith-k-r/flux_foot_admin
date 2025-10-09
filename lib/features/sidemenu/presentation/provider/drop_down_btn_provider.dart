@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/core/firebase/auth/firebase_auth_service.dart';
-import 'package:flux_foot_admin/features/auth/presentation/provider/auth_provider.dart';
-import 'package:flux_foot_admin/features/auth/presentation/screens/login_screen.dart';
-import 'package:flux_foot_admin/features/auth/presentation/widgets/lgoin_form.dart';
+import 'package:flux_foot_admin/core/routing/web_router.dart';
+import 'package:flux_foot_admin/features/auth/view_models/provider/auth_provider.dart';
+import 'package:flux_foot_admin/features/auth/views/screens/login_screen.dart';
 
 class DropDownButtonProvider extends ChangeNotifier {
   String? _value;

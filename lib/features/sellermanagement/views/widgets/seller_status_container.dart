@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flux_foot_admin/features/sellermanagement/data/model/seller_status_model.dart';
+import 'package:flux_foot_admin/core/constants/web_colors.dart';
+import 'package:flux_foot_admin/features/sellermanagement/models/seller_status_model.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 // ! Seller Status as Custom Container
 
@@ -13,6 +15,7 @@ class CustomSellerStatus extends StatelessWidget {
     required this.iconColor,
     required this.satsTitle,
     required this.countSellr,
+    required this.lottie,
   });
 
   final double size;
@@ -20,14 +23,15 @@ class CustomSellerStatus extends StatelessWidget {
   final String countSellr;
   final Color boxColor;
   final Color iconColor;
+  final String lottie;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: size * 0.18,
-      height: size * 0.09,
+      height: size * 0.1,
       decoration: BoxDecoration(
-        color: Color(0xFF1E2A44),
+        color: WebColors.bgDarkBlue2,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
@@ -39,9 +43,11 @@ class CustomSellerStatus extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  satsTitle,
-                  style: GoogleFonts.openSans(color: Colors.white),
+                Lottie.asset(
+                  lottie,
+                  width: size * 0.05,
+                  height: size * 0.05,
+                  fit: BoxFit.contain,
                 ),
                 Padding(
                   padding: EdgeInsets.only(right: size * 0.01),
@@ -61,13 +67,22 @@ class CustomSellerStatus extends StatelessWidget {
                 ),
               ],
             ),
-            Text(
-              countSellr,
-              style: GoogleFonts.openSans(
-                fontWeight: FontWeight.bold,
-                fontSize: size * 0.015,
-                color: Colors.white,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  satsTitle,
+                  style: GoogleFonts.openSans(color: WebColors.textWhite),
+                ),
+                Text(
+                  countSellr,
+                  style: GoogleFonts.openSans(
+                    fontWeight: FontWeight.bold,
+                    fontSize: size * 0.015,
+                    color: WebColors.textWhite,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

@@ -2,7 +2,9 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flux_foot_admin/features/sellermanagement/presentation/screens/show_seller_details.dart';
+import 'package:flux_foot_admin/core/constants/web_colors.dart';
+import 'package:flux_foot_admin/core/widgets/show_snackbar.dart';
+import 'package:flux_foot_admin/features/sellermanagement/views/screens/show_seller_details.dart';
 import 'package:flux_foot_admin/features/sidemenu/presentation/screens/sidemenu.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,7 +16,7 @@ class SellerTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 14, 15, 19),
+        color: WebColors.bgDarkBlue1,
         borderRadius: BorderRadius.circular(12),
       ),
       padding: const EdgeInsets.all(16),
@@ -24,74 +26,74 @@ class SellerTable extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
             decoration: BoxDecoration(
-              color: const Color(0xFF1E2A44),
+              color: WebColors.bgDarkBlue2,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               children: [
-                const Expanded(
+                Expanded(
                   flex: 2,
                   child: Text(
                     'Name',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: WebColors.textWhite,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
                     ),
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   flex: 2,
                   child: Text(
                     'Phone No',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: WebColors.textWhite,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
                     ),
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   flex: 2,
                   child: Text(
                     'Email',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: WebColors.textWhite,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
                     ),
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   flex: 1,
                   child: Text(
                     'Status',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: WebColors.textWhite,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
                     ),
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   flex: 2,
                   child: Text(
                     'Action',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: WebColors.textWhite,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
                     ),
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   flex: 1,
                   child: Text(
                     'View Details',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: WebColors.textWhite,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
                     ),
@@ -115,7 +117,7 @@ class SellerTable extends StatelessWidget {
                 return Center(
                   child: Text(
                     'Error: ${snapshot.error}',
-                    style: GoogleFonts.openSans(color: Colors.red),
+                    style: GoogleFonts.openSans(color: WebColors.errorRed),
                   ),
                 );
               }
@@ -126,7 +128,7 @@ class SellerTable extends StatelessWidget {
                 return Center(
                   child: Text(
                     'No sellers found.',
-                    style: GoogleFonts.openSans(color: Colors.white70),
+                    style: GoogleFonts.openSans(color: WebColors.textWhite),
                   ),
                 );
               }
@@ -151,6 +153,10 @@ class SellerTable extends StatelessWidget {
                       : 'N/A';
                   final email = sellerData['email'] ?? 'N/A';
                   final status = sellerData['status'] ?? 'unknown';
+                  final storename = sellerData['store name'] ?? 'N/A';
+                  final businesstype = sellerData['business type'] ?? 'N/A';
+                  final warehouse = sellerData['warehouse'] ?? 'N/A';
+                  final licenseUrl = sellerData['business_license_url'] ?? '';
 
                   return Container(
                     margin: const EdgeInsets.only(bottom: 8),
@@ -159,7 +165,7 @@ class SellerTable extends StatelessWidget {
                       horizontal: 20,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF1E2A44),
+                      color: WebColors.bgDarkBlue2,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
@@ -178,7 +184,7 @@ class SellerTable extends StatelessWidget {
                                 child: Text(
                                   name,
                                   style: GoogleFonts.openSans(
-                                    color: Colors.white,
+                                    color: WebColors.textWhite,
                                     fontSize: 15,
                                   ),
                                   overflow: TextOverflow.ellipsis,
@@ -193,7 +199,7 @@ class SellerTable extends StatelessWidget {
                           child: Text(
                             phone,
                             style: GoogleFonts.openSans(
-                              color: Colors.white70,
+                              color: WebColors.textWhiteLite,
                               fontSize: 15,
                             ),
                             overflow: TextOverflow.ellipsis,
@@ -205,7 +211,7 @@ class SellerTable extends StatelessWidget {
                           child: Text(
                             email,
                             style: GoogleFonts.openSans(
-                              color: Colors.white70,
+                              color: WebColors.textWhiteLite,
                               fontSize: 15,
                             ),
                             overflow: TextOverflow.ellipsis,
@@ -237,9 +243,20 @@ class SellerTable extends StatelessWidget {
                           flex: 1,
                           child: Center(
                             child: IconButton(
-                              color: Colors.blueAccent,
+                              color: WebColors.buttonBlue,
                               onPressed: () {
-                                showSellerDetails(context, status, sellerId,name,email,phone);
+                                showSellerDetails(
+                                  context,
+                                  status,
+                                  sellerId,
+                                  name,
+                                  email,
+                                  phone,
+                                  storename,
+                                  businesstype,
+                                  warehouse,
+                                  licenseUrl,
+                                );
                               },
                               icon: const Icon(Icons.arrow_forward_ios),
                             ),
@@ -278,16 +295,16 @@ class ActionButtons extends StatelessWidget {
             status.toLowerCase() == 'approved')
           buildActionButton(
             text: 'Block',
-            color: Colors.white,
-            backgroundColor: Colors.white24,
+            color: WebColors.textWhite,
+            backgroundColor: WebColors.borderSideGrey,
             onPressed: () => updateSellerStatus(context, sellerId, 'blocked'),
           ),
         if (status.toLowerCase() == 'blocked' ||
             status.toLowerCase() == 'rejected')
           buildActionButton(
             text: 'UnBlock',
-            color: Colors.white,
-            backgroundColor: Colors.white24,
+            color: WebColors.textWhite,
+            backgroundColor: WebColors.borderSideGrey,
             onPressed: () => updateSellerStatus(context, sellerId, 'active'),
           ),
         if (status.toLowerCase() == 'pending' ||
@@ -297,16 +314,16 @@ class ActionButtons extends StatelessWidget {
             children: [
               buildActionButton(
                 text: 'Accept',
-                color: Colors.green,
-                backgroundColor: Colors.green.withOpacity(0.2),
+                color: WebColors.activeGreen,
+                backgroundColor: WebColors.activeGreen.withOpacity(0.2),
                 onPressed: () =>
                     updateSellerStatus(context, sellerId, 'active'),
               ),
               const SizedBox(width: 5),
               buildActionButton(
                 text: 'Reject',
-                color: Colors.red,
-                backgroundColor: Colors.red.withOpacity(0.2),
+                color: WebColors.errorRed,
+                backgroundColor: WebColors.errorRed.withOpacity(0.2),
                 onPressed: () =>
                     updateSellerStatus(context, sellerId, 'rejected'),
               ),
@@ -322,15 +339,15 @@ Color getStatusColor(String status) {
   switch (status.toLowerCase()) {
     case 'approved':
     case 'active':
-      return Colors.green;
+      return WebColors.activeGreen;
     case 'inactive':
     case 'blocked':
-      return Colors.red;
+      return WebColors.errorRed;
     case 'pending':
     case 'waiting':
-      return Colors.orange;
+      return WebColors.waitinColor;
     default:
-      return Colors.grey;
+      return WebColors.defaultGrey;
   }
 }
 
@@ -366,18 +383,20 @@ Future<void> updateSellerStatus(
       'status': newStatus,
     });
     // Optionally show a success message
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Seller status updated to $newStatus'),
-        backgroundColor: Colors.green,
-      ),
-    );
+    if (context.mounted) {
+      showOverlaySnackbar(
+        context,
+        'Seller status updated to $newStatus',
+        newStatus == 'blocked' || newStatus == 'Rejected'
+            ? WebColors.errorRed
+            : WebColors.activeGreen,
+      );
+    }
   } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Error updating seller status'),
-        backgroundColor: Colors.red,
-      ),
+    showOverlaySnackbar(
+      context,
+      'Error updating seller status',
+      WebColors.errorRed,
     );
   }
 }

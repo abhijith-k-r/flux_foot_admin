@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flux_foot_admin/features/auth/presentation/provider/auth_provider.dart';
+import 'package:flux_foot_admin/features/auth/view_models/provider/auth_provider.dart';
 import 'package:flux_foot_admin/features/sidemenu/presentation/provider/drop_down_btn_provider.dart';
 import 'package:flux_foot_admin/features/sidemenu/presentation/screens/sidemenu.dart';
-import 'package:flux_foot_admin/features/auth/presentation/screens/login_screen.dart';
+import 'package:flux_foot_admin/features/auth/views/screens/login_screen.dart';
 import 'package:flux_foot_admin/features/sidemenu/presentation/provider/sidemenu_provider.dart';
 import 'package:flux_foot_admin/firebase_options.dart';
 import 'package:provider/provider.dart';

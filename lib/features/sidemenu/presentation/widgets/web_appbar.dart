@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:flux_foot_admin/core/constants/app_colors.dart';
+import 'package:flux_foot_admin/core/constants/web_colors.dart';
 import 'package:flux_foot_admin/features/sidemenu/presentation/widgets/admin_dropdown_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,10 +19,14 @@ class CustomWebAppbar extends StatelessWidget {
     return Container(
       height: 70,
       width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Color(0xFF1E2A44),
+      decoration: BoxDecoration(
+        color: WebColors.bgDarkBlue2,
         boxShadow: [
-          BoxShadow(color: Colors.black26, offset: Offset(0, 2), blurRadius: 4),
+          BoxShadow(
+            color: WebColors.shadowBlack,
+            offset: Offset(0, 2),
+            blurRadius: 4,
+          ),
         ],
       ),
       child: Padding(
@@ -33,26 +37,26 @@ class CustomWebAppbar extends StatelessWidget {
             Text(
               'FLUXFOOT',
               style: GoogleFonts.rozhaOne(
-                fontSize: size > 1200 ? 28 : 24,    
-                color: textWhite,
+                fontSize: size > 1200 ? 28 : 24,
+                color: WebColors.textWhite,
                 letterSpacing: 1.2,
               ),
             ),
-            SizedBox(width: size * 0.1),   //! between the text and title space
+            SizedBox(width: size * 0.1), //! between the text and title space
             //! Page Title
             Text(
               title,
               style: GoogleFonts.openSans(
                 fontSize: size > 1200 ? 20 : 18,
                 fontWeight: FontWeight.w700,
-                color: textWhite,
+                color: WebColors.textWhite,
               ),
             ),
 
             Spacer(),
 
             // ! ADMIN BUTTON 2
-            AdminDropdown()
+            AdminDropdown(),
           ],
         ),
       ),

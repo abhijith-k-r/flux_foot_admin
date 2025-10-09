@@ -3,10 +3,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
-import 'package:flux_foot_admin/core/constants/app_colors.dart';
+import 'package:flux_foot_admin/core/constants/web_colors.dart';
 import 'package:flux_foot_admin/features/sidemenu/presentation/widgets/custom_sidemenu.dart';
 import 'package:flux_foot_admin/features/sidemenu/presentation/widgets/web_appbar.dart';
-import 'package:flux_foot_admin/features/sellermanagement/data/model/seller_status_model.dart';
+import 'package:flux_foot_admin/features/sellermanagement/models/seller_status_model.dart';
 import 'package:flux_foot_admin/features/sidemenu/presentation/provider/sidemenu_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -93,7 +93,7 @@ Widget buildActionButton({
         color: backgroundColor ?? color.withOpacity(0.2),
         borderRadius: BorderRadius.circular(6),
         border: text == 'Block' || text == 'UnBlock'
-            ? Border.all(color: Colors.white24, width: 1)
+            ? Border.all(color: WebColors.borderSideGrey, width: 1)
             : null,
       ),
       child: Text(

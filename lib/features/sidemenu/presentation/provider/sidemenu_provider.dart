@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/features/sidemenu/presentation/widgets/custom_sidemenu.dart';
 import 'package:flux_foot_admin/features/sidemenu/presentation/screens/sidemenu.dart';
-import 'package:flux_foot_admin/features/sellermanagement/presentation/screens/seller_management.dart';
+import 'package:flux_foot_admin/features/sellermanagement/views/screens/seller_management.dart';
 
 class SidemenuProvider extends ChangeNotifier {
   String _currentPageTitle = "Dashboard Overview";

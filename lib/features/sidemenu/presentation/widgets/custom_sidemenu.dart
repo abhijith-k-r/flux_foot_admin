@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
+import 'package:flux_foot_admin/core/constants/web_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // ! Custom Side Menu
@@ -18,7 +19,7 @@ class CustomSideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SideMenu(
-      backgroundColor: const Color(0xFF1E2A44),
+      backgroundColor: WebColors.bgDarkBlue2,
       builder: (data) => SideMenuData(
         header: Container(
           padding: const EdgeInsets.all(10),
@@ -35,22 +36,22 @@ class CustomSideMenu extends StatelessWidget {
             title: item.title,
             icon: Icon(
               item.icon,
-              color: isSelected ? Colors.white : Colors.white70,
+              color: isSelected ? WebColors.textWhite : WebColors.iconGreyShade,
               size: 20,
             ),
             selectedTitleStyle: isSelected
                 ? GoogleFonts.openSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: Colors.white,
+                    color: WebColors.textWhite,
                   )
                 : GoogleFonts.openSans(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
-                    color: Colors.white,
+                    color: WebColors.textWhite,
                   ),
             borderRadius: BorderRadius.circular(8),
-            highlightSelectedColor: Color(0xFF4B5EFC),
+            highlightSelectedColor: WebColors.buttonBlue,
           );
         }).toList(),
       ),
