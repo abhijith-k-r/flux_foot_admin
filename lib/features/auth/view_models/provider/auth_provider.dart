@@ -1,12 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/core/constants/web_colors.dart';
 import 'package:flux_foot_admin/core/routing/web_router.dart';
 import 'package:flux_foot_admin/core/widgets/show_snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flux_foot_admin/core/firebase/auth/firebase_auth_service.dart';
-import 'package:flux_foot_admin/features/sidemenu/presentation/screens/sidemenu.dart';
+import 'package:flux_foot_admin/core/services/firebase/firebase_auth_service.dart';
+import 'package:flux_foot_admin/features/sidemenu/views/screens/sidemenu.dart';
 
 class AuthenticationAdmin extends ChangeNotifier {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -69,7 +71,11 @@ class AuthenticationAdmin extends ChangeNotifier {
               _passwordController.text.trim() == storedPassword) {
             await setLoggedIn(true);
             fadePUshReplaceMent(ctx, SideMenuWithAppbar());
-            showOverlaySnackbar(ctx, 'Successfully Login 💫', WebColors.successGreen);
+            showOverlaySnackbar(
+              ctx,
+              'Successfully Login 💫',
+              WebColors.successGreen,
+            );
           } else {
             showOverlaySnackbar(
               ctx,
@@ -79,6 +85,7 @@ class AuthenticationAdmin extends ChangeNotifier {
           }
         }
       } catch (e) {
+        log(e.toString());
         showOverlaySnackbar(ctx, 'Error: $e', WebColors.errorRed);
       } finally {
         setLoading(false);

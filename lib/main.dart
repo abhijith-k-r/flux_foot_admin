@@ -3,10 +3,11 @@ import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/features/auth/view_models/provider/auth_provider.dart';
-import 'package:flux_foot_admin/features/sidemenu/presentation/provider/drop_down_btn_provider.dart';
-import 'package:flux_foot_admin/features/sidemenu/presentation/screens/sidemenu.dart';
-import 'package:flux_foot_admin/features/auth/views/screens/login_screen.dart';
-import 'package:flux_foot_admin/features/sidemenu/presentation/provider/sidemenu_provider.dart';
+import 'package:flux_foot_admin/features/auth/views/screens/splash_screen.dart';
+import 'package:flux_foot_admin/features/category_manager/view_model/provider/category_provider.dart';
+import 'package:flux_foot_admin/features/sidemenu/view_models/provider/drop_down_btn_provider.dart';
+import 'package:flux_foot_admin/features/sidemenu/views/screens/sidemenu.dart';
+import 'package:flux_foot_admin/features/sidemenu/view_models/provider/sidemenu_provider.dart';
 import 'package:flux_foot_admin/firebase_options.dart';
 import 'package:provider/provider.dart';
 
@@ -39,6 +40,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<SidemenuProvider>(
           create: (context) => SidemenuProvider(),
         ),
+        ChangeNotifierProvider<CategoryViewModel>(
+          create: (context) => CategoryViewModel(),
+        ),
       ],
       child: Consumer<AuthenticationAdmin>(
         builder: (context, authProvider, child) {
@@ -48,7 +52,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(scaffoldBackgroundColor: Colors.black),
             home: authProvider.isLoggedIn
                 ? SideMenuWithAppbar()
-                : LogingScreen(),
+                : SplashScreen(),
           );
         },
       ),
