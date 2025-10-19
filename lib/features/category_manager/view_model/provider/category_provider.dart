@@ -16,7 +16,6 @@ class CategoryViewModel extends ChangeNotifier {
   final String _isActive = '';
 
   bool get isLoading => _isLoading;
-  // List<CategoryModel> get categories => _categories;
   TextEditingController get nameController => _nameController;
   TextEditingController get descriptionController => _descriptionController;
   TextEditingController get searchController => _searchController;
@@ -56,7 +55,6 @@ class CategoryViewModel extends ChangeNotifier {
   Future<void> addCategories({
     required String name,
     String? description,
-    bool? isActive,
   }) async {
     if (name.isEmpty) return;
     _isLoading = true;
@@ -96,6 +94,7 @@ class CategoryViewModel extends ChangeNotifier {
         id: id,
         name: name,
         description: description,
+        status: 'active',
         createdAt: DateTime.now(),
       );
 

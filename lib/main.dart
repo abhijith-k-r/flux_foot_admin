@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/features/auth/view_models/provider/auth_provider.dart';
 import 'package:flux_foot_admin/features/auth/views/screens/splash_screen.dart';
+import 'package:flux_foot_admin/features/brand_management/view_model/provider/brand_provider.dart';
 import 'package:flux_foot_admin/features/category_manager/view_model/provider/category_provider.dart';
 import 'package:flux_foot_admin/features/sidemenu/view_models/provider/drop_down_btn_provider.dart';
 import 'package:flux_foot_admin/features/sidemenu/views/screens/sidemenu.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<CategoryViewModel>(
           create: (context) => CategoryViewModel(),
+        ),
+        ChangeNotifierProvider<BrandProvider>(
+          create: (context) => BrandProvider(),
         ),
       ],
       child: Consumer<AuthenticationAdmin>(

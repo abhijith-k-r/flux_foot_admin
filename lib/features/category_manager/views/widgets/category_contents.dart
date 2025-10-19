@@ -29,13 +29,20 @@ Container categoryContents(
         ),
         SizedBox(
           width: size * 0.15,
-          child: Center(
-            child: customText(15, 'Active', webcolors: WebColors.activeGreen),
-          ),
+          child: Center(child: customText(15, category.description.toString())),
         ),
+
         SizedBox(
           width: size * 0.15,
-          child: customText(15, category.description.toString()),
+          child: Center(
+            child: customText(
+              15,
+              category.status == 'active' ? 'Active' : 'Blocked',
+              webcolors: category.status == 'active'
+                  ? WebColors.activeGreen
+                  : WebColors.errorRed,
+            ),
+          ),
         ),
 
         SizedBox(

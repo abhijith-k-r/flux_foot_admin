@@ -84,24 +84,24 @@ Widget buildTextArea(
   );
 }
 
-Widget buildToggle(BuildContext context, String label) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text(
-        label,
-        style: GoogleFonts.openSans(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: WebColors.textWhite,
-        ),
-      ),
-      Switch(
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        value: false,
-        onChanged: (bool value) {},
-        activeColor: WebColors.activeGreeLite,
-      ),
-    ],
-  );
-}
+// Widget buildToggle(BuildContext context, String label) {
+//   return Row(
+//     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//     children: [
+//       Text(
+//         label,
+//         style: GoogleFonts.openSans(
+//           fontSize: 14,
+//           fontWeight: FontWeight.w500,
+//           color: WebColors.textWhite,
+//         ),
+//       ),
+//       Switch(
+//         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+//         value: false,
+//         onChanged: (bool value) {},
+//         activeColor: WebColors.activeGreeLite,
+//       ),
+//     ],
+//   );
+// }

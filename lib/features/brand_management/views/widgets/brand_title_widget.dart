@@ -1,10 +1,8 @@
-// ! Title Contents (Name,status,description etc..).
-
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/core/constants/web_colors.dart';
 import 'package:flux_foot_admin/core/widgets/custom_text.dart';
 
-Card buildTitleContents(double size) {
+Widget buildTitleContents(double size) {
   return Card(
     elevation: 3,
     shadowColor: WebColors.textWhiteLite,
@@ -18,10 +16,6 @@ Card buildTitleContents(double size) {
           SizedBox(
             width: size * 0.15,
             child: Center(child: customText(20, 'Name')),
-          ),
-          SizedBox(
-            width: size * 0.15,
-            child: Center(child: customText(20, 'Description')),
           ),
 
           SizedBox(
