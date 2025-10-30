@@ -27,7 +27,7 @@ Container brandContents(
           width: size * 0.15,
           child: Center(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               spacing: size * 0.01,
               children: [
                 Container(

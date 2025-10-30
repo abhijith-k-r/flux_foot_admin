@@ -32,82 +32,80 @@ class ShowSellerDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width;
-    return Scaffold(
-      body: Dialog(
-        child: Container(
-          width: size * 0.7,
-          height: size * 0.7,
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 46, 46, 46),
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Column(
-            children: [
-              AppBar(
-                automaticallyImplyLeading: false,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusGeometry.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
+    return Dialog(
+      child: Container(
+        width: size * 0.7,
+        height: size * 0.7,
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 46, 46, 46),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Column(
+          children: [
+            AppBar(
+              automaticallyImplyLeading: false,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                ),
+              ),
+              // ! BACK BUTTON
+              actions: [customBackButton(context)],
+              backgroundColor: const Color.fromARGB(255, 46, 46, 46),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                left: size * 0.06,
+                top: size * 0.05,
+                right: size * 0.06,
+              ),
+              child: Column(
+                spacing: 30,
+                children: [
+                  // ! Title With Approval Button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Seller Details',
+                        style: GoogleFonts.openSans(
+                          color: WebColors.textWhite,
+                          fontSize: size * 0.015,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      // ! ACTION  Button/ APPROVAL
+                      ActionButtons(status: status, sellerId: sellerId),
+                    ],
                   ),
-                ),
-                // ! BACK BUTTON
-                actions: [customBackButton(context)],
-                backgroundColor: const Color.fromARGB(255, 46, 46, 46),
+                  // ! Seller Image With other Details
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // ! Seller Profile Image
+                      CircleAvatar(
+                        radius: size * 0.06,
+                        child: Icon(Icons.person, size: size * 0.06),
+                      ),
+                      // ! seller More Details
+                      SellerDetails(
+                        size: size,
+                        name: name,
+                        storename: storename,
+                        phone: phone,
+                        email: email,
+                        businesstype: businesstype,
+                        warehouse: warehouse,
+                        licenseUrl: licenseUrl,
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: size * 0.06,
-                  top: size * 0.05,
-                  right: size * 0.06,
-                ),
-                child: Column(
-                  spacing: 30,
-                  children: [
-                    // ! Title With Approval Button
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Seller Details',
-                          style: GoogleFonts.openSans(
-                            color: WebColors.textWhite,
-                            fontSize: size * 0.015,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        // ! ACTION  Button/ APPROVAL
-                        ActionButtons(status: status, sellerId: sellerId),
-                      ],
-                    ),
-                    // ! Seller Image With other Details
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // ! Seller Profile Image
-                        CircleAvatar(
-                          radius: size * 0.06,
-                          child: Icon(Icons.person, size: size * 0.06),
-                        ),
-                        // ! seller More Details
-                        SellerDetails(
-                          size: size,
-                          name: name,
-                          storename: storename,
-                          phone: phone,
-                          email: email,
-                          businesstype: businesstype,
-                          warehouse: warehouse,
-                          licenseUrl: licenseUrl,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

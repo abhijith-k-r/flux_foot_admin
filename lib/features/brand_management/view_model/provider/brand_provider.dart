@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/core/services/firebase/firebase_brand_service.dart';
@@ -16,6 +18,9 @@ class BrandProvider extends ChangeNotifier {
   final String _isActive = '';
   final ImagePicker _picker = ImagePicker();
   final cloudinary = CloudinaryPublic('dryij9oei', 'sr_default', cache: false);
+
+  StreamSubscription<List<BrandModel>>? _brandsSubscription;
+  bool _isDisposed = false;
 
   bool get isLoading => _isLoading;
   TextEditingController get nameController => _nameController;
@@ -37,16 +42,26 @@ class BrandProvider extends ChangeNotifier {
   void onSearchTermChanged(String term) {
     _searchTerm = term;
     notifyListeners();
+    _safeNotify();
   }
 
   BrandProvider() {
+    _searchController.addListener(() {
+      onSearchTermChanged(_searchController.text);
+    });
+
     _firebaseBrandService.readBrands().listen((brandList) {
       brandList.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       _brands = brandList;
-      _searchController.addListener(() {
-        onSearchTermChanged(_searchController.text);
-      });
       notifyListeners();
+    });
+
+    _brandsSubscription = _firebaseBrandService.readBrands().listen((
+      brandList,
+    ) {
+      brandList.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      _brands = brandList;
+      _safeNotify();
     });
   }
 
@@ -55,6 +70,7 @@ class BrandProvider extends ChangeNotifier {
     if (_logoUrl != url) {
       _logoUrl = url;
       notifyListeners();
+      _safeNotify();
     }
   }
 
@@ -85,6 +101,7 @@ class BrandProvider extends ChangeNotifier {
     } finally {
       _isLoading = false;
       notifyListeners();
+      _safeNotify();
     }
   }
 
@@ -92,6 +109,7 @@ class BrandProvider extends ChangeNotifier {
   void clearSelectedLogoUrl() {
     _logoUrl = null;
     notifyListeners();
+    _safeNotify();
   }
 
   // ! Add Brand
@@ -116,6 +134,7 @@ class BrandProvider extends ChangeNotifier {
       _isLoading = false;
       clearSelectedLogoUrl();
       notifyListeners();
+      _safeNotify();
     }
   }
 
@@ -129,6 +148,7 @@ class BrandProvider extends ChangeNotifier {
 
     _isLoading = true;
     notifyListeners();
+    _safeNotify();
 
     try {
       final updateBrand = BrandModel(
@@ -146,6 +166,7 @@ class BrandProvider extends ChangeNotifier {
       _isLoading = false;
       clearSelectedLogoUrl();
       notifyListeners();
+      _safeNotify();
     }
   }
 
@@ -153,6 +174,7 @@ class BrandProvider extends ChangeNotifier {
   Future<void> deleteBrand(BrandModel brand) async {
     _isLoading = true;
     notifyListeners();
+    _safeNotify();
 
     try {
       await _firebaseBrandService.deleteBrand(brand);
@@ -161,6 +183,7 @@ class BrandProvider extends ChangeNotifier {
     } finally {
       _isLoading = false;
     }
+    _safeNotify();
   }
 
   @override
@@ -168,5 +191,18 @@ class BrandProvider extends ChangeNotifier {
     _nameController.dispose();
     _searchController.dispose();
     super.dispose();
+    _isDisposed = true;
+    _brandsSubscription?.cancel();
+    _nameController.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _safeNotify() {
+    if (!_isDisposed) {
+      try {
+        notifyListeners();
+      } catch (_) {}
+    }
   }
 }

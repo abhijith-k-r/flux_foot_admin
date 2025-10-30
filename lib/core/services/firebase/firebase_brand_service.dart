@@ -7,20 +7,19 @@ import 'package:flux_foot_admin/core/widgets/show_snackbar.dart';
 import 'package:flux_foot_admin/features/brand_management/model/brand_model.dart';
 
 class FirebaseBrandService {
-    final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-    // ! Adding a Brand
-    Future<void> addBrand(BrandModel brand)async{
-      try {
+  // ! Adding a Brand
+  Future<void> addBrand(BrandModel brand) async {
+    try {
       await _db.collection('brands').add(brand.toFireStore());
       debugPrint('Category added successfully to Firestore!');
     } catch (e) {
       throw Exception('Failed to add category: $e');
     }
-    }
+  }
 
-
-     // ! Streaming Brands (Read)
+  // ! Streaming Brands (Read)
   Stream<List<BrandModel>> readBrands() {
     return _db.collection('brands').snapshots().map((snapshot) {
       return snapshot.docs
@@ -36,10 +35,7 @@ class FirebaseBrandService {
         throw Exception('brand ID is required for updating');
       }
 
-      _db
-          .collection('brands')
-          .doc(brand.id)
-          .update(brand.toFireStore());
+      _db.collection('brands').doc(brand.id).update(brand.toFireStore());
       debugPrint('brand updated successfully: ${brand.name}');
     } catch (e) {
       throw Exception('Failed to update category: $e');
@@ -85,7 +81,8 @@ class FirebaseBrandService {
     }
   }
 
-    // ! Delete Brands
+
+  // ! Delete Brands
   Future<void> deleteBrand(BrandModel brand) async {
     try {
       await _db.collection('brands').doc(brand.id).delete();
@@ -94,5 +91,4 @@ class FirebaseBrandService {
       throw Exception('Failed to delete brand: $e');
     }
   }
-
 }

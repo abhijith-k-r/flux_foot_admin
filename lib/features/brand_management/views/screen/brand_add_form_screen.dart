@@ -81,7 +81,7 @@ class AddBrandScreen extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'Add Category',
+                    'Add Brand',
                     style: GoogleFonts.openSans(
                       color: WebColors.textWhite,
                       fontSize: 16,
@@ -95,6 +95,4 @@ class AddBrandScreen extends StatelessWidget {
       ),
     );
   }
-
-
 }

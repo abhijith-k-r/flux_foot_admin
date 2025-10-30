@@ -15,12 +15,14 @@ class BrandManagementScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         spacing: 10,
         children: [
+
           ElevatedButton.icon(
             onPressed: () {
               final provider = context.read<BrandProvider>();
               provider.clearSelectedLogoUrl();
               showAddBrandModal(context);
             },
+
             style: ElevatedButton.styleFrom(
               backgroundColor: WebColors.buttonBlue,
               foregroundColor: WebColors.textWhite,

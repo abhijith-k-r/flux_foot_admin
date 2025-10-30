@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/core/constants/web_colors.dart';
+import 'package:flux_foot_admin/features/category_manager/model/category_model.dart';
 import 'package:flux_foot_admin/features/category_manager/views/widgets/add_edit_helper.dart';
 import 'package:flux_foot_admin/features/category_manager/views/widgets/category_listtable.dart';
 
@@ -8,7 +9,12 @@ class CategoryManagementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
+    final categorymodel = CategoryModel(
+      id: '',
+      name: '',
+      dynamicFields: const [],
+      createdAt: DateTime.now(),
+    );
 
     return Scaffold(
       body: Column(
@@ -16,7 +22,7 @@ class CategoryManagementScreen extends StatelessWidget {
         spacing: 10,
         children: [
           ElevatedButton.icon(
-            onPressed: () => showAddCategory(context),
+            onPressed: () => showAddEditCategoryModal(context, categorymodel),
             style: ElevatedButton.styleFrom(
               backgroundColor: WebColors.buttonBlue,
               foregroundColor: WebColors.textWhite,

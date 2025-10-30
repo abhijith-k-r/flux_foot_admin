@@ -24,7 +24,7 @@ Widget buildDropDownActionItems(
             // Close the menu
             Navigator.pop(context);
             //! Execute the 'Edit' functionality
-            showEditCategoryModal(context, category);
+            showAddEditCategoryModal(context, category);
           },
           child: customText(15, 'Edit', webcolors: WebColors.buttonBlue),
         ),

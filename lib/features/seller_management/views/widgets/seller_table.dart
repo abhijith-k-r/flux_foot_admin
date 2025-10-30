@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/core/constants/web_colors.dart';
 import 'package:flux_foot_admin/core/widgets/show_snackbar.dart';
-import 'package:flux_foot_admin/features/seller_management/views/screens/show_seller_details.dart';
+import 'package:flux_foot_admin/features/seller_management/views/widgets/showing_helper_function.dart';
 import 'package:flux_foot_admin/features/sidemenu/views/screens/sidemenu.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -251,16 +251,17 @@ class SellerTable extends StatelessWidget {
                             child: IconButton(
                               color: WebColors.buttonBlue,
                               onPressed: () {
-                                ShowSellerDetailsScreen(
-                                  status: status,
-                                  sellerId: sellerId,
-                                  name: name,
-                                  email: email,
-                                  phone: phone,
-                                  storename: storename,
-                                  businesstype: businesstype,
-                                  warehouse: warehouse,
-                                  licenseUrl: licenseUrl,
+                                onShowSellerDetails(
+                                  context,
+                                  status,
+                                  sellerId,
+                                  name,
+                                  email,
+                                  phone,
+                                  storename,
+                                  businesstype,
+                                  warehouse,
+                                  licenseUrl,
                                 );
                               },
                               icon: const Icon(Icons.arrow_forward_ios),
