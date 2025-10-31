@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/core/constants/web_colors.dart';
 import 'package:flux_foot_admin/core/widgets/custom_back_button.dart';
 import 'package:flux_foot_admin/core/widgets/custom_text.dart';
-import 'package:flux_foot_admin/features/category_manager/model/category_model.dart';
 import 'package:flux_foot_admin/features/category_manager/view_model/provider/category_provider.dart';
 import 'package:flux_foot_admin/features/category_manager/views/screen/dynamic_field_row.dart';
 import 'package:flux_foot_admin/features/category_manager/views/widgets/form_elements.dart';
@@ -12,21 +11,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 //! --- Form Widget (Add New Category) ---
-class AddEditCategoryForm extends StatelessWidget {
-  final CategoryModel? categoryToEdit;
-  const AddEditCategoryForm({super.key, this.categoryToEdit});
+class AddCategoryForm extends StatelessWidget {
+  const AddCategoryForm({super.key,});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width;
-    final isEditMode = categoryToEdit != null;
-
-    //! Load category data if editing
-    final viewModel = Provider.of<CategoryViewModel>(context, listen: false);
-
-    if (isEditMode && categoryToEdit != null) {
-      viewModel.loadCategoryForEdit(categoryToEdit!);
-    }
 
     return Dialog(
       child: Container(
@@ -48,7 +38,7 @@ class AddEditCategoryForm extends StatelessWidget {
                 children: [
                   customText(
                     18,
-                    isEditMode ? 'Edit Category' : 'Create New Category',
+                    'Create New Category',
                     fontWeight: FontWeight.bold,
                     webcolors: WebColors.textWhite,
                   ),
@@ -241,76 +231,32 @@ class AddEditCategoryForm extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  // Save/Update Button
+                   const SizedBox(width: 12),
                   Consumer<CategoryViewModel>(
                     builder: (context, viewModel, _) {
                       return ElevatedButton(
-                        onPressed: viewModel.isLoading
-                            ? null // Disable when loading
-                            : () async {
-                                // Validate first
-                                final validationError = viewModel
-                                    .validateFields();
-
-                                if (validationError != null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(validationError),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                  return;
-                                }
-
-                                bool success;
-
-                                // Check if we're editing or adding
-                                if (isEditMode && categoryToEdit != null) {
-                                  // UPDATE MODE
-                                  success = await viewModel
-                                      .updateExistingCategory(
-                                        id: categoryToEdit!.id,
-                                        name: viewModel.nameController.text,
-                                        description: viewModel
-                                            .descriptionController
-                                            .text,
-                                      );
-                                } else {
-                                  // ADD MODE
-                                  success = await viewModel.addCategories(
-                                    name: viewModel.nameController.text,
-                                    description:
-                                        viewModel.descriptionController.text,
-                                  );
-                                }
-
-                                // Show result
-                                if (success && context.mounted) {
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        isEditMode
-                                            ? 'Category updated successfully!'
-                                            : 'Category created successfully!',
-                                      ),
-                                      backgroundColor: Colors.green,
-                                    ),
-                                  );
-                                } else if (context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        isEditMode
-                                            ? 'Failed to update category'
-                                            : 'Failed to create category',
-                                      ),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                }
-                              },
+                        onPressed: () async {
+                          try {
+                            await viewModel.addCategories(
+                              name: viewModel.nameController.text,
+                              description: viewModel.descriptionController.text,
+                            );
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Category created successfully!'),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(e.toString()),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: WebColors.buttonBlue,
                           padding: const EdgeInsets.symmetric(
@@ -321,24 +267,13 @@ class AddEditCategoryForm extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        child: viewModel.isLoading
-                            ? const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : Text(
-                                isEditMode
-                                    ? 'Update Category'
-                                    : 'Save Category & Define Fields',
-                                style: GoogleFonts.openSans(
-                                  color: WebColors.textWhite,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                        child: Text(
+                          'Save Category & Define Fields',
+                          style: GoogleFonts.openSans(
+                            color: WebColors.textWhite,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       );
                     },
                   ),

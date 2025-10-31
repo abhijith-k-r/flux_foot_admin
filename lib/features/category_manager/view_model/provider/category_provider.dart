@@ -16,7 +16,6 @@ class CategoryViewModel extends ChangeNotifier {
   final TextEditingController _searchController = TextEditingController();
   String _searchTerm = '';
   final String _isActive = '';
-  bool _isEditDataLoaded = false;
 
   bool get isLoading => _isLoading;
   TextEditingController get nameController => _nameController;
@@ -236,7 +235,7 @@ class CategoryViewModel extends ChangeNotifier {
 
   // !Load category for editing
   void loadCategoryForEdit(CategoryModel category) {
-    if (_isEditDataLoaded) return;
+    // if (_isEditDataLoaded) return;
 
     _nameController.text = category.name;
     _descriptionController.text = category.description ?? '';
@@ -252,7 +251,7 @@ class CategoryViewModel extends ChangeNotifier {
         )
         .toList();
 
-    _isEditDataLoaded = true;
+    // _isEditDataLoaded = true;
     notifyListeners();
   }
 
@@ -261,7 +260,6 @@ class CategoryViewModel extends ChangeNotifier {
     _nameController.clear();
     _descriptionController.clear();
     dynamicFields.clear();
-    _isEditDataLoaded = false;
     notifyListeners();
   }
 

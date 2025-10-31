@@ -23,7 +23,7 @@ class DynamicFieldModel {
     };
   }
 
-    factory DynamicFieldModel.fromJson(Map<String, dynamic> json) {
+  factory DynamicFieldModel.fromJson(Map<String, dynamic> json) {
     return DynamicFieldModel(
       id: json['id'],
       label: json['label'],
@@ -49,4 +49,5 @@ class DynamicFieldModel {
     }
   }
 }
+
 enum FieldType { textInput, sellerSelectionList, booleanToggle, number }

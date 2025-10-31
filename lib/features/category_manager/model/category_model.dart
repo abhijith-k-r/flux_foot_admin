@@ -45,7 +45,7 @@ class CategoryModel {
       'description': description,
       'status': status,
       'createdAt': createdAt,
-      'dynamicField': dynamicFields.map((field) => field.toJson()).toList(),
+      'dynamicFields': dynamicFields.map((field) => field.toJson()).toList(),
     };
   }
 }
