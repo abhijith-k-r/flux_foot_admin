@@ -67,8 +67,8 @@ class LoginForm extends StatelessWidget {
                   hintText: '••••••••',
                   controller: authenticationAdmin.passwordController,
                   keyboardType: TextInputType.visiblePassword,
-                  textInputAction: TextInputAction.done,
                   obscureText: !authenticationAdmin.isPasswordVisible,
+                  textInputAction: TextInputAction.next,
                   prefIcon: Icon(
                     Icons.lock,
                     size: isMobile ? 24 : 20,

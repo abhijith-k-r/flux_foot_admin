@@ -6,6 +6,7 @@ import 'package:flux_foot_admin/core/widgets/custom_text.dart';
 import 'package:flux_foot_admin/features/brand_management/model/brand_model.dart';
 import 'package:flux_foot_admin/features/brand_management/view_model/provider/brand_provider.dart';
 import 'package:flux_foot_admin/features/brand_management/views/widgets/drop_down_menu_items.dart';
+import 'package:intl/intl.dart';
 
 Container brandContents(
   double size,
@@ -71,7 +72,12 @@ Container brandContents(
         SizedBox(
           width: size * 0.15,
           child: Center(
-            child: Center(child: customText(15, brand.createdAt.toString())),
+            child: Center(
+              child: customText(
+                15,
+                DateFormat('yyyy-MM-dd  a').format(brand.createdAt),
+              ),
+            ),
           ),
         ),
 

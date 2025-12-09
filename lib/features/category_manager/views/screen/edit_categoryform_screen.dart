@@ -4,20 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/core/constants/web_colors.dart';
 import 'package:flux_foot_admin/core/widgets/custom_back_button.dart';
 import 'package:flux_foot_admin/core/widgets/custom_text.dart';
+import 'package:flux_foot_admin/core/widgets/show_snackbar.dart';
+import 'package:flux_foot_admin/features/category_manager/model/category_model.dart';
 import 'package:flux_foot_admin/features/category_manager/view_model/provider/category_provider.dart';
 import 'package:flux_foot_admin/features/category_manager/views/screen/dynamic_field_row.dart';
 import 'package:flux_foot_admin/features/category_manager/views/widgets/form_elements.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-//! --- Form Widget (Add New Category) ---
-class AddCategoryForm extends StatelessWidget {
-  const AddCategoryForm({super.key,});
+class EditCategoryScreen extends StatelessWidget {
+  final CategoryModel category;
+  const EditCategoryScreen({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width;
-
     return Dialog(
       child: Container(
         width: size * 0.7,
@@ -223,37 +224,34 @@ class AddCategoryForm extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: Text(
+                    child: customText(
+                      15,
                       'Cancel',
-                      style: GoogleFonts.openSans(
-                        color: WebColors.textWhite,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                   const SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   Consumer<CategoryViewModel>(
                     builder: (context, viewModel, _) {
                       return ElevatedButton(
                         onPressed: () async {
                           try {
-                            await viewModel.addCategories(
+                            await viewModel.updateExistingCategory(
+                              id: category.id,
                               name: viewModel.nameController.text,
                               description: viewModel.descriptionController.text,
                             );
                             Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Category created successfully!'),
-                                backgroundColor: Colors.green,
-                              ),
+                            showOverlaySnackbar(
+                              context,
+                              'Category Updated successfully!',
+                              WebColors.successGreen,
                             );
                           } catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(e.toString()),
-                                backgroundColor: Colors.red,
-                              ),
+                            showOverlaySnackbar(
+                              context,
+                              e.toString(),
+                              WebColors.errorRed,
                             );
                           }
                         },
@@ -268,7 +266,7 @@ class AddCategoryForm extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Save Category & Define Fields',
+                          'Save Category Changes',
                           style: GoogleFonts.openSans(
                             color: WebColors.textWhite,
                             fontWeight: FontWeight.bold,
