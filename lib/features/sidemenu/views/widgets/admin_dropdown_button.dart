@@ -20,10 +20,7 @@ class AdminDropdown extends StatelessWidget {
             PopupMenuItem<String>(
               enabled: false, // Disables clicking
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                  horizontal: 16.0,
-                ),
+                padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                 child: Text(
                   'Admin',
                   style: TextStyle(

@@ -5,6 +5,7 @@ import 'package:flux_foot_admin/core/widgets/custom_text.dart';
 import 'package:flux_foot_admin/features/category_manager/model/category_model.dart';
 import 'package:flux_foot_admin/features/category_manager/view_model/provider/category_provider.dart';
 import 'package:flux_foot_admin/features/category_manager/views/widgets/dropdown_menu_items.dart';
+import 'package:intl/intl.dart';
 
 // ! Categories Details or Contents From Firebase
 Container categoryContents(
@@ -48,7 +49,12 @@ Container categoryContents(
         SizedBox(
           width: size * 0.15,
           child: Center(
-            child: Center(child: customText(15, category.createdAt.toString())),
+            child: Center(
+              child: customText(
+                15,
+                "${DateFormat.yMMMEd().format(category.createdAt)} ${DateFormat.j().format(category.createdAt)}",
+              ),
+            ),
           ),
         ),
 

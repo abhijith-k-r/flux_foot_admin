@@ -21,7 +21,11 @@ class SideMenuWithAppbar extends StatelessWidget {
         builder: (context, sidemenuprovider, child) {
           return Column(
             children: [
-              CustomWebAppbar(title: sidemenuprovider.currentPageTitle),
+              SafeArea(
+                child: CustomWebAppbar(
+                  title: sidemenuprovider.currentPageTitle,
+                ),
+              ),
 
               // !Custom Side menu
               Expanded(
@@ -48,7 +52,7 @@ class SideMenuWithAppbar extends StatelessWidget {
       ),
     );
   }
-}   
+}
 
 // !====== For Sample Text====
 Widget buildDashboardContent() {

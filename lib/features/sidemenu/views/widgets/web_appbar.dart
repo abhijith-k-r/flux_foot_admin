@@ -42,18 +42,20 @@ class CustomWebAppbar extends StatelessWidget {
                 letterSpacing: 1.2,
               ),
             ),
-            SizedBox(width: size * 0.1), //! between the text and title space
+            SizedBox(width: size * 0.05), //! between the text and title space
             //! Page Title
-            Text(
-              title,
-              style: GoogleFonts.openSans(
-                fontSize: size > 1200 ? 20 : 18,
-                fontWeight: FontWeight.w700,
-                color: WebColors.textWhite,
+            Expanded(
+              child: Text(
+                title,
+                style: GoogleFonts.openSans(
+                  fontSize: size > 1200 ? 20 : size * 0.035,
+                  fontWeight: FontWeight.w700,
+                  color: WebColors.textWhite,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-
-            Spacer(),
 
             // ! ADMIN BUTTON 2
             AdminDropdown(),

@@ -8,6 +8,7 @@ Widget customText(
   String text, {
   FontWeight? fontWeight,
   Color? webcolors,
+  int? maxLines,
 }) {
   return Text(
     text,

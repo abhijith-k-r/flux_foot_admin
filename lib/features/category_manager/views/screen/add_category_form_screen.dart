@@ -74,7 +74,7 @@ class AddCategoryForm extends StatelessWidget {
                         buildDynamicSchemaSection(viewModel),
 
                         const SizedBox(height: 24),
-                      ],
+                      ],     
                     );
                   },
                 ),

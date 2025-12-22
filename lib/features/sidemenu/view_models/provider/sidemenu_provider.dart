@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/features/brand_management/views/screen/brand_management_screen.dart';
 import 'package:flux_foot_admin/features/category_manager/views/screen/category_management_screen.dart';
+import 'package:flux_foot_admin/features/dashboard/views/screens/dashboard_view.dart';
 import 'package:flux_foot_admin/features/sidemenu/views/widgets/custom_sidemenu.dart';
 import 'package:flux_foot_admin/features/sidemenu/views/screens/sidemenu.dart';
 import 'package:flux_foot_admin/features/seller_management/views/screens/seller_management.dart';
+import 'package:flux_foot_admin/features/user_management/views/screens/user_management.dart';
 
 class SidemenuProvider extends ChangeNotifier {
   String _currentPageTitle = "Dashboard Overview";
@@ -54,9 +56,9 @@ class SidemenuProvider extends ChangeNotifier {
   Widget buildMainContent(BuildContext context) {
     switch (selectedIndex) {
       case 0:
-        return buildDashboardContent();
+        return DashboardContent();
       case 1:
-        return buildUserManagementContent();
+        return UserManagement();
       case 2:
         return SellerManagement();
       case 3:
