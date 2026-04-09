@@ -14,18 +14,18 @@ Widget buildHeroCarousel() {
           'Click to manage images, rotation, and display settings for the main app feed.',
       'buttonText': 'Manage Display',
     },
-    {
-      'title': 'Analytics Dashboard',
-      'description':
-          'View comprehensive statistics and insights about your platform performance.',
-      'buttonText': 'View Analytics',
-    },
-    {
-      'title': 'User Management',
-      'description':
-          'Monitor and manage all user activities, permissions, and account settings.',
-      'buttonText': 'Manage Users',
-    },
+    // {
+    //   'title': 'Analytics Dashboard',
+    //   'description':
+    //       'View comprehensive statistics and insights about your platform performance.',
+    //   'buttonText': 'View Analytics',
+    // },
+    // {
+    //   'title': 'User Management',
+    //   'description':
+    //       'Monitor and manage all user activities, permissions, and account settings.',
+    //   'buttonText': 'Manage Users',
+    // },
   ];
 
   return CarouselSlider(

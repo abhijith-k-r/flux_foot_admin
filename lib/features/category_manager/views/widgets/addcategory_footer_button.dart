@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/core/constants/web_colors.dart';
+import 'package:flux_foot_admin/core/widgets/show_snackbar.dart';
 import 'package:flux_foot_admin/features/category_manager/view_model/provider/category_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -46,17 +47,27 @@ Container buildAddCategoryFooterButton(BuildContext context) {
             return ElevatedButton(
               onPressed: () async {
                 try {
-                  await viewModel.addCategories(
-                    name: viewModel.nameController.text,
-                    description: viewModel.descriptionController.text,
-                  );
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Category created successfully!'),
-                      backgroundColor: WebColors.activeGreen,
-                    ),
-                  );
+                  if (viewModel.nameController.text.isEmpty ||
+                      viewModel.descriptionController.text.isEmpty) {
+                    showOverlaySnackbar(
+                      context,
+                      'Category Name and Description must be selected',
+                      WebColors.errorRed,
+                    );
+                  } else {
+                    await viewModel.addCategories(
+                      context: context,
+                      name: viewModel.nameController.text,
+                      description: viewModel.descriptionController.text,
+                    );
+                    showOverlaySnackbar(
+                      context,
+                      'Category created successfully!',
+                      WebColors.activeGreen,
+                    );
+
+                    Navigator.pop(context);
+                  }
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
+import 'package:flux_foot_admin/core/constants/web_colors.dart';
 import 'package:flux_foot_admin/core/services/firebase/firebase_brand_service.dart';
+import 'package:flux_foot_admin/core/widgets/show_snackbar.dart';
 import 'package:flux_foot_admin/features/brand_management/model/brand_model.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -113,8 +115,21 @@ class BrandProvider extends ChangeNotifier {
   }
 
   // ! Add Brand
-  Future<void> addBrand({required String name, String? logoUrl}) async {
-    if (name.isEmpty) return;
+  Future<void> addBrand({
+    required BuildContext context,
+    required String name,
+    String? logoUrl,
+  }) async {
+    if (name.isEmpty || logoUrl!.isEmpty) {
+      showOverlaySnackbar(
+        context,
+        'Brand&Image must be selected',
+        WebColors.errorRed,
+      );
+      debugPrint('Error: Brand or Category name not found. Check selection.');
+      return;
+    }
+
     _isLoading = true;
     notifyListeners();
 

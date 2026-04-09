@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/core/constants/web_colors.dart';
 import 'package:flux_foot_admin/core/widgets/custom_back_button.dart';
 import 'package:flux_foot_admin/core/widgets/custom_text.dart';
+import 'package:flux_foot_admin/core/widgets/show_snackbar.dart';
 import 'package:flux_foot_admin/features/brand_management/view_model/provider/brand_provider.dart';
 import 'package:flux_foot_admin/features/brand_management/views/widgets/add_edit_brand_logo_widget.dart';
 import 'package:flux_foot_admin/features/category_manager/views/widgets/form_elements.dart';
@@ -59,14 +60,29 @@ class AddBrandScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    brandProvider.addBrand(
-                      name: brandProvider.nameController.text,
-                      logoUrl: brandProvider.selectedLogoUrl,
-                    );
-                    brandProvider.nameController.clear();
-                    brandProvider.clearSelectedLogoUrl();
-                    Navigator.pop(context);
+                  onPressed: () async {
+                    if (brandProvider.nameController.text.isEmpty ||
+                        brandProvider.selectedLogoUrl!.isEmpty) {
+                      showOverlaySnackbar(
+                        context,
+                        'Brand Name & Image must be selected',
+                        WebColors.errorRed,
+                      );
+                    } else {
+                      brandProvider.addBrand(
+                        context: context,
+                        name: brandProvider.nameController.text,
+                        logoUrl: brandProvider.selectedLogoUrl,
+                      );
+                      brandProvider.nameController.clear();
+                      brandProvider.clearSelectedLogoUrl();
+                      showOverlaySnackbar(
+                        context,
+                        'Created Brand SuccesFully',
+                        WebColors.activeGreen,
+                      );
+                      Navigator.pop(context);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: WebColors.buttonBlue,

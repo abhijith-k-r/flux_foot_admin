@@ -75,7 +75,8 @@ Container brandContents(
             child: Center(
               child: customText(
                 15,
-                DateFormat('yyyy-MM-dd  a').format(brand.createdAt),
+                // DateFormat('yyyy-MM-dd  a').format(brand.createdAt),
+                "${DateFormat.yMMMEd().format(brand.createdAt)} ${DateFormat.j().format(brand.createdAt)}",
               ),
             ),
           ),

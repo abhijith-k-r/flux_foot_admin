@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flux_foot_admin/core/constants/web_colors.dart';
 import 'package:flux_foot_admin/core/services/firebase/firebase_category_service.dart';
+import 'package:flux_foot_admin/core/widgets/show_snackbar.dart';
 import 'package:flux_foot_admin/features/category_manager/model/category_model.dart';
 import 'package:flux_foot_admin/features/category_manager/model/dynamic_field_model.dart';
 
@@ -137,10 +139,20 @@ class CategoryViewModel extends ChangeNotifier {
 
   // ! Add Category
   Future<bool> addCategories({
+    required BuildContext context,
     required String name,
     String? description,
   }) async {
-    if (name.isEmpty) return false;
+    if (name.isEmpty) {
+      showOverlaySnackbar(
+        context,
+        'Category Name must be selected',
+        WebColors.errorRed,
+      );
+
+      debugPrint('Error: Brand or Category name not found. Check selection.');
+      return false;
+    }
 
     // Validate before saving
     final validationError = validateFields();
