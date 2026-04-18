@@ -17,7 +17,7 @@ class CarouselProvider extends ChangeNotifier {
   bool _autoRotate = true;
   int _rotationInterval = 5;
   String _scrollDirection = 'horizontal';
-  
+
   bool _isUploading = false;
   bool _isLoading = false;
 
@@ -37,21 +37,24 @@ class CarouselProvider extends ChangeNotifier {
   void _initStreams() {
     _isLoading = true;
     notifyListeners();
-    
-    _dataSubscription = _firebaseService.getCarouselData().listen((data) {
-      if (data != null) {
-        _slides = data.slides;
-        _autoRotate = data.settings.autoRotate;
-        _rotationInterval = data.settings.rotationInterval;
-        _scrollDirection = data.settings.scrollDirection;
-      }
-      _isLoading = false;
-      notifyListeners();
-    }, onError: (e) {
-       debugPrint("Error listening to carousel data: $e");
-       _isLoading = false;
-       notifyListeners();
-    });
+
+    _dataSubscription = _firebaseService.getCarouselData().listen(
+      (data) {
+        if (data != null) {
+          _slides = data.slides;
+          _autoRotate = data.settings.autoRotate;
+          _rotationInterval = data.settings.rotationInterval;
+          _scrollDirection = data.settings.scrollDirection;
+        }
+        _isLoading = false;
+        notifyListeners();
+      },
+      onError: (e) {
+        debugPrint("Error listening to carousel data: $e");
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
   }
 
   void _setUploading(bool value) {
@@ -133,7 +136,6 @@ class CarouselProvider extends ChangeNotifier {
       );
 
       addSlideLocally(newSlide);
-      
     } catch (e) {
       debugPrint('Error uploading image: $e');
     } finally {
@@ -145,21 +147,17 @@ class CarouselProvider extends ChangeNotifier {
   Future<void> saveAllChanges() async {
     _isLoading = true;
     notifyListeners();
-    
+
     try {
       final settings = CarouselSettingsModel(
         autoRotate: _autoRotate,
         rotationInterval: _rotationInterval,
         scrollDirection: _scrollDirection,
       );
-      
-      final data = CarouselData(
-        slides: _slides,
-        settings: settings,
-      );
+
+      final data = CarouselData(slides: _slides, settings: settings);
 
       await _firebaseService.saveCarouselData(data);
-      
     } catch (e) {
       debugPrint('Error saving changes: $e');
     } finally {
