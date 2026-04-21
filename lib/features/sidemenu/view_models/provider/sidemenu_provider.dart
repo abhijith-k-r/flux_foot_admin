@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/features/brand_management/views/screen/brand_management_screen.dart';
 import 'package:flux_foot_admin/features/category_manager/views/screen/category_management_screen.dart';
 import 'package:flux_foot_admin/features/dashboard/views/screens/dashboard_view.dart';
+import 'package:flux_foot_admin/features/dashboard/views/screens/order_management_screen.dart';
 import 'package:flux_foot_admin/features/sidemenu/views/widgets/custom_sidemenu.dart';
 import 'package:flux_foot_admin/features/sidemenu/views/screens/sidemenu.dart';
 import 'package:flux_foot_admin/features/seller_management/views/screens/seller_management.dart';
@@ -66,7 +67,7 @@ class SidemenuProvider extends ChangeNotifier {
       case 4:
         return BrandManagementScreen();
       case 5:
-        return buildOrdersContent();
+        return AdminOrderManagement();
       default:
         return buildDashboardContent();
     }

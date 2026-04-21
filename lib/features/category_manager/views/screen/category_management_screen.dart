@@ -27,7 +27,7 @@ class CategoryManagementScreen extends StatelessWidget {
               ),
             ),
             icon: const Icon(Icons.add),
-            label: const Text('Add New Brand'),
+            label: const Text('Add New Category'),
           ),
           // ! Category Table
           Expanded(child: CategoryListTable()),
