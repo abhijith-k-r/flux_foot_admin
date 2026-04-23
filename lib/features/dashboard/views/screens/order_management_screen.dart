@@ -304,6 +304,23 @@ class AdminOrderManagement extends StatelessWidget {
                                       'lastUpdated':
                                           FieldValue.serverTimestamp(),
                                     });
+                                // --- NEW: Trigger In-App Notification (Firestore Based) ---
+                                final customerId = order['userId'];
+                                final productName = order['productName'] ?? 'Product';
+                                
+                                if (customerId != null) {
+                                  await FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(customerId)
+                                      .collection('notifications')
+                                      .add({
+                                    'title': "Refund Processed",
+                                    'body': "Your refund for '$productName' (#${orderId.substring(0, 8).toUpperCase()}) has been processed successfully.",
+                                    'isRead': false,
+                                    'createdAt': FieldValue.serverTimestamp(),
+                                  });
+                                }
+
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text(
@@ -410,10 +427,34 @@ class AdminOrderManagement extends StatelessWidget {
                           'status': selectedStatus,
                           'lastUpdated': FieldValue.serverTimestamp(),
                         });
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Order status forcefully updated by Admin!")),
-                        );
+
+                        // --- NEW: Trigger In-App Notification (Admin Update) ---
+                        try {
+                          final orderDoc = await FirebaseFirestore.instance.collection('orders').doc(orderId).get();
+                          final customerId = orderDoc.data()?['userId'];
+                          final productName = orderDoc.data()?['productName'] ?? 'Product';
+                          if (customerId != null) {
+                            await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(customerId)
+                                .collection('notifications')
+                                .add({
+                              'title': "Admin: Order Status Updated",
+                              'body': "Your order for '$productName' (#${orderId.substring(0, 8).toUpperCase()}) has been updated to $selectedStatus by FluxFoot Admin.",
+                              'isRead': false,
+                              'createdAt': FieldValue.serverTimestamp(),
+                            });
+                          }
+                        } catch (e) {
+                          debugPrint("Error: $e");
+                        }
+
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Order status forcefully updated by Admin!")),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurple,
