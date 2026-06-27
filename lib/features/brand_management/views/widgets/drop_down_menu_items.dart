@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/core/constants/web_colors.dart';
 import 'package:flux_foot_admin/core/services/firebase/firebase_brand_service.dart';
 import 'package:flux_foot_admin/core/widgets/custom_text.dart';
+import 'package:flux_foot_admin/core/widgets/show_snackbar.dart';
 import 'package:flux_foot_admin/features/brand_management/model/brand_model.dart';
 import 'package:flux_foot_admin/features/brand_management/view_model/provider/brand_provider.dart';
 import 'package:flux_foot_admin/features/brand_management/views/widgets/add_edit_helper_functions.dart';
@@ -65,8 +66,40 @@ Widget buildDropDownActionItems(
       PopupMenuItem<String>(
         child: TextButton(
           onPressed: () {
-            brandProvider.deleteBrand(brand);
-            Navigator.pop(context);
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text(
+                  'Delete',
+                  style: TextStyle(color: WebColors.errorRed),
+                ),
+                content: Text(
+                  'Are you sure do you want to delete ${brand.name}?',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      brandProvider.deleteBrand(brand);
+                      Navigator.pop(context);
+                      showOverlaySnackbar(
+                        context,
+                        '${brand.name} Deleted',
+                        WebColors.errorRed,
+                      );
+                    },
+                    child: Text('Delete'),
+                  ),
+                ],
+              ),
+            );
+
+            // Navigator.pop(context);
           },
           child: customText(15, 'Delete', webcolors: WebColors.errorRed),
         ),
