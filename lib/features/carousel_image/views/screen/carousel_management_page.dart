@@ -1,4 +1,3 @@
-// Main Widget
 import 'package:flutter/material.dart';
 import 'package:flux_foot_admin/features/carousel_image/view_model/carousel_provider.dart';
 import 'package:flux_foot_admin/features/carousel_image/views/screen/carousel_content.dart';
